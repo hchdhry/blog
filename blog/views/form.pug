@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  form(action="/post", method="post")
+    label(for="title") title:
+    input(type="text", id="title", name="title")
+
+    label(for="text") text:
+    textarea(id="text", name="Text", rows="4")
+
+    button(type="submit") Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

@@ -8,9 +8,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get("/test",(req,res) => {
-  res.json({yee:"hello"})
+router.get("/post",(req,res) => {
+  res.render("form",{title:"form"})
 })
+router.post("/post",post.createpost)
+
 
 module.exports = router;
  
