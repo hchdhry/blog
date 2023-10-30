@@ -17,6 +17,7 @@ const mongoDB = yee
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
+  console.log("yee")
 }
 
 // view engine setup
