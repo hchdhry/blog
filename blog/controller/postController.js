@@ -14,20 +14,25 @@ exports.createPost = [
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Assuming Post is a model with a schema like { title: String, text: String, date: Date }
+    
     const newPost = new Post({
       title: title,
       Text: text,
       date: new Date(),
     });
 
-    // Save the new post to the database
     await newPost.save();
 
-    // Send a success response
+  
     res.sendStatus(200);
   }),
 ];
 
-// exports.deletePost = asyncHandler(async (req, res) => {
-// });
+exports.deletePost = asyncHandler(async (req, res) => {
+  const deletedPost = await Post.findByIdAndDelete(req.params.id).exec()
+
+  if (!deletedPost) {
+    return res.sendStatus(404);
+  }
+  res.sendStatus(200);
+});

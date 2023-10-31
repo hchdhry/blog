@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   //res.render("form",{title:"form"})
 //})
 router.post("/post",post.createPost)
-
+router.delete("/post/:id",post.deletePost)
 
 
 
