@@ -18,16 +18,15 @@ router.post("/yee", async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Hash the password before saving it
+  
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new user instance with the hashed password
     const newUser = new usermodel({
       username: username,
       password: hashedPassword,
     });
 
-    // Save the user to the database
+  
     await newUser.save();
 
     res.status(201).json({ message: 'User created successfully.' });
