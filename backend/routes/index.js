@@ -3,6 +3,7 @@ var router = express.Router();
 const post = require("../controller/postController")
 const bcrypt = require("bcryptjs")
 const usermodel = require("../models/userModel")
+const passprt = require("../logic/passport")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,29 +15,23 @@ router.get('/', function(req, res, next) {
 //})
 router.post("/post",post.createPost)
 router.delete("/post/:id",post.deletePost)
-router.post("/yee", async (req, res) => {
-  const { username, password } = req.body;
+router.post("/login", (req, res, next) => {
+  passprt.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err); 
+    }
+    if (!user) {
+      return res.status(401).json({ message: "Authentication failed" });
+    }
 
-  try {
-  
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new usermodel({
-      username: username,
-      password: hashedPassword,
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.status(200).json({ message: "Authentication successful", user });
     });
-
-  
-    await newUser.save();
-
-    res.status(201).json({ message: 'User created successfully.' });
-  } catch (error) {
-    console.error('Error creating user:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
+  })(req, res, next);
 });
-
-
 
 module.exports = router;
  

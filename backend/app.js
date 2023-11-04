@@ -1,10 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
+const session = require('express-session');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors")
 const bcrypt = require("bcryptjs")
+const passport = require("./logic/passport")
 
 require("dotenv").config();
 
@@ -23,6 +25,15 @@ async function main() {
   await mongoose.connect(mongoDB);
   console.log("yee")
 }
+app.use(session({
+  secret: 'your-secret-key', // Replace with a secret key for session encryption
+  resave: false,
+  saveUninitialized: true,
+}));
+
+// Initialize Passport and session management
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -45,14 +56,7 @@ app.use(function(req, res, next) {
 const PORT = 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  bcrypt.hash('password', 10, (err, hashedPassword) => {
-    if (err) {
-      console.error('Error hashing password:', err);
-    } else {
-      console.log('Hashed password:', hashedPassword);
-    }
-  });
+  console.log(`Server is running on port ${PORT}`);;
 });
 
 
