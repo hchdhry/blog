@@ -32,7 +32,6 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-// Initialize Passport and session management
 app.use(passport.initialize());
 app.use(passport.session());
 

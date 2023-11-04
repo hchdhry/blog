@@ -4,6 +4,7 @@ const post = require("../controller/postController")
 const bcrypt = require("bcryptjs")
 const usermodel = require("../models/userModel")
 const passprt = require("../logic/passport")
+const {generateToken,verifyToken} = require("../logic/jwt")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,10 +26,11 @@ router.post("/login", (req, res, next) => {
     }
 
     req.logIn(user, (err) => {
+      const { _id, username } = user;
       if (err) {
         return next(err);
       }
-      return res.status(200).json({ message: "Authentication successful", user });
+      return res.status(200).json({ message: "Authentication successful", user:{_id,username,"token":generateToken()}});
     });
   })(req, res, next);
 });
