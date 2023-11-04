@@ -11,6 +11,7 @@ const passport = require("./logic/passport")
 require("dotenv").config();
 
 const yee = process.env.yee;
+const secret = process.env.secret;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -26,7 +27,7 @@ async function main() {
   console.log("yee")
 }
 app.use(session({
-  secret: 'your-secret-key', // Replace with a secret key for session encryption
+  secret: secret,
   resave: false,
   saveUninitialized: true,
 }));
