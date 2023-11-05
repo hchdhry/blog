@@ -30,7 +30,7 @@ router.post("/login", (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.status(200).json({ message: "Authentication successful", user:{_id,username,"token":generateToken()}});
+      return res.status(200).json({ message: "Authentication successful", user:{_id,username,"token":generateToken(_id)}});
     });
   })(req, res, next);
 });

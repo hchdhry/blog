@@ -6,23 +6,26 @@ const LogIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    async function loginRequest(){
-      try{fetch("url",
-      {method:"POST",
-      'Content-Type': 'application/json',
-      body:JSON.stringify({
-        username:username,
-        password:password
-      })
-  
+  async function loginRequest(){
+    try{ const req = await fetch("http://localhost:3000/login",
+    {method:"POST",
+    'Content-Type': 'application/json',
+    body:JSON.stringify({
+      username:username,
+      password:password
     })
-       
-      }
-      catch(err){
-  console.log(`login error:${err}`)
-      }
-     }
+
+  })
+  const data = await req.json();
+  console.log(data);
+     
+    }
+    catch(err){
+console.log(`login error:${err}`)
+    }
+   }
+  const handleLogin = () => {
+   loginRequest()
   
    };
 
