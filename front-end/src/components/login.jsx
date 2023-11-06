@@ -1,39 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
 
-
 const LogIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  async function loginRequest(){
-    try{ const req = await fetch("http://localhost:3000/login",
-    {method:"POST",
-    'Content-Type': 'application/json',
-    body:JSON.stringify({
-      username:username,
-      password:password
-    })
+  async function loginRequest(setError) {
+    try {
+      const req = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
 
-  })
-  const data = await req.json();
-  console.log(data);
-     
+      const data = await req.json();
+
+      if (req.ok) {  
+      console.log("Authentication successful:", data);
+      } else {
+        console.error("Authentication failed:", data);
+        setError(data.message || "Authentication failed");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(`Login error: ${err.message}`);
     }
-    catch(err){
-console.log(`login error:${err}`)
-    }
-   }
+  }
+
   const handleLogin = () => {
-   loginRequest()
-  
-   };
-
- 
+    loginRequest(setError);
+  };
 
   return (
     <div className="App">
       <h1>Login</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {}
       <div>
         <label htmlFor="username">Username:</label>
         <input
