@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const LogIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+ 
 
   async function loginRequest(setError) {
     try {
@@ -23,6 +28,8 @@ const LogIn = () => {
 
       if (req.ok) {  
       console.log("Authentication successful:", data);
+      navigate('/');
+      
       } else {
         console.error("Authentication failed:", data);
         setError(data.message || "Authentication failed");
@@ -41,7 +48,7 @@ const LogIn = () => {
     <div className="App">
       <h1>Login</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {}
+      
       <div>
         <label htmlFor="username">Username:</label>
         <input
