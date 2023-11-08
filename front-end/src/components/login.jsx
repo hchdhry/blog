@@ -28,7 +28,7 @@ const LogIn = () => {
 
       if (req.ok) {  
       console.log("Authentication successful:", data);
-      navigate('/');
+      navigate('/author');
       
       } else {
         console.error("Authentication failed:", data);
