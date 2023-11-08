@@ -2,6 +2,11 @@ const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const Post = require("../models/postModel");
 
+exports.fetchPost = asyncHandler(async(req,res)=>{
+  const allPosts = await Post.find()
+  res.json(allPosts)
+})
+
 exports.createPost = [
   body('title').trim().notEmpty().withMessage('Title is required'),
   body('text').trim().notEmpty().withMessage('Text is required'),

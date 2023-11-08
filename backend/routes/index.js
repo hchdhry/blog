@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
 //router.get("/post",verifyToken,(req,res) => {
   //res.render("form",{title:"form"})
 //})
+router.get("/post",post.fetchPost)
 router.post("/post",post.createPost)
 router.delete("/post/:id",post.deletePost)
 router.post("/login", (req, res, next) => {
