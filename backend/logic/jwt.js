@@ -6,9 +6,18 @@ function verifyToken(req, res, next) {
   if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
-    req.token = bearerToken;
-    next();
+
+    jwt.verify(bearerToken, process.env.secret, (err, decoded) => {
+      if (err) {
+        res.sendStatus(403);
+      } else {
+     
+        req.decoded = decoded;
+        next();
+      }
+    });
   } else {
+    
     res.sendStatus(403);
   }
 }

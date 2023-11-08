@@ -27,7 +27,8 @@ const LogIn = () => {
       const data = await req.json();
 
       if (req.ok) {  
-      console.log("Authentication successful:", data);
+      console.log("Authentication successful:");
+      localStorage.setItem("token",data.user.token)
       navigate('/author');
       
       } else {

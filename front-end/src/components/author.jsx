@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import "../app.css";
-import { set } from "mongoose";
 
 const Author = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();  // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleStatusClick = () => {
     navigate('/');
@@ -18,19 +17,27 @@ const Author = () => {
     event.preventDefault();
 
     try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setError("User not authenticated");
+        return;
+      }
+
       const req = await fetch("http://localhost:3000/post", {
         method: "POST",
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ title: title, text: message })
       });
 
       if (req.ok) {
-        setStatus("click here to see post");
+        setStatus("Click here to see the post");
       } else {
-        setError("error");
+        setError("Error creating post");
       }
     } catch (err) {
-      setError("error");
+      console.error("Error:", err);
+      setError("Unexpected error occurred");
     }
   }
 

@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
   //res.render("form",{title:"form"})
 //})
 router.get("/post",post.fetchPost)
-router.post("/post",post.createPost)
+router.post("/post",verifyToken,post.createPost)
 router.delete("/post/:id",post.deletePost)
 router.post("/login", (req, res, next) => {
   passprt.authenticate("local", (err, user, info) => {
